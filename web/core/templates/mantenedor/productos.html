@@ -1,0 +1,139 @@
+{% extends 'mantenedor/mantenedor.html' %}
+
+{%load static%}
+
+{%block title%}
+<title>Mantenedor: Productos</title>
+
+{%endblock%}
+
+{% block content %}
+<div class="mb-0">
+    <div class="d-flex align-items-center p-3 text-white bg-purple rounded shadow-sm ">
+        <i class="bi bi-box-seam align-text-bottom" style="font-size: 3rem;"></i>
+        <div class="lh-1">
+            <h1 class="h2 mb-0 text-white lh-1">&nbsp;Lista de productos</h1>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg m-3 mb-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Agregar producto
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar productos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body mt-2">
+
+                        <form action="productosAdd" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-floating mb-3">
+                                <input type="text" name="idProducto" class="form-control" id="floatingInput"
+                                    placeholder="id producto" required>
+                                <label for="floatingInput">ID Producto</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" name="nombreProducto" class="form-control" id="floatingInput"
+                                    placeholder="nombre producto" required>
+                                <label for="floatingInput">Nombre producto</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="number" name="stock" class="form-control" id="floatingInput"
+                                    placeholder="cantidad stock" required>
+                                <label for="floatingInput">Cantidad de stock</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input ttype="number" name="precio" class="form-control" id="floatingInput"
+                                    placeholder="precio producto" required>
+                                <label for="floatingInput">Precio $</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input ttype="number" name="activo" class="form-control" id="floatingInput"
+                                    placeholder="activo" required>
+                                <label for="floatingInput">Activo</label>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupFile01">Foto</label>
+                                <input type="file" name="foto" class="form-control" id="inputGroupFile01" required>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <input type="submit" name="opcion" value="Agregar" class="btn btn-primary">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm border">
+
+        <div class="table-responsive-md">
+            <table class="table table-borderless table-hover table-sm" style="font-family: 'Work Sans', sans-serif;">
+                <thead>
+                    <tr>
+                        <th scope="col">Img</th>
+                        <th scope="col">id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col">Precio</th>
+
+                        <th scope="col" class="text-center">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in productos%}
+                    <tr>
+                        <td><img src="{{p.foto.url}}" width="50" height="70"></td>
+                        <th scope="row">{{p.idProducto}}</th>
+                        <td style="text-transform:capitalize ;">{{p.nombreProducto}}</td>
+                        <td>{{p.stock}}</td>
+                        <td>${{p.precio}}</td>
+                        <td class="text-center">
+                            <a href="{% url 'productos_edit'  pk=p.idProducto %}"
+                                class="btn btn-secondary btn-sm rounded-circle"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{% url 'productos_del'  pk=p.idProducto %}"
+                                class="btn btn-danger btn-sm rounded-circle"><i class="bi bi-trash-fill"></i></a>
+                        </td>
+                    </tr>
+                    {%endfor%}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div id="idMensajes">
+
+    {% if mensaje%}
+
+    <div class="alert alert-success m-4" role="alert">
+        {{mensaje}}
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+{%endblock%}

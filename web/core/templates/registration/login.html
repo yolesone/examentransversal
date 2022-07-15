@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{%load static%}
+{% block title%}
+<title>Login</title>
+{% endblock%}
+
+{%block content%}
+
+<div class="container col-xl-10 col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+            <h1 class="display-4 fw-bold lh-1 mb-3">Iniciar sesión</h1>
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse aliquet quis lorem vel
+                scelerisque. Maecenas pharetra nec nibh ut consequat. Nulla finibus nisl eu ante ultrices egestas.
+                Curabitur vitae neque quis velit sodales semper.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg px-4"><i
+                        class="bi bi-chevron-left"></i>&nbsp;Volver al home</a>
+                <a href="{% url 'registro' %}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Regístrate&nbsp;<i
+                        class="bi bi-person-hearts"></i></a>
+            </div>
+        </div>
+        {%load crispy_forms_tags%}
+        <div class="col-md-10 mx-auto col-lg-5">
+            <form action="" method="post" class="p-4 p-md-5 border rounded-3 bg-light">
+                {%csrf_token%}
+
+                {{form | crispy}}
+
+                <br>
+
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar</button>
+                <hr class="my-4">
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

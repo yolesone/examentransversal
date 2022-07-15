@@ -1,0 +1,131 @@
+{% extends 'core/base.html' %}
+
+{%load static%}
+
+{%block title%}
+<title>Tienda</title>
+{%endblock%}
+
+{% block content %}
+
+<main class="container" style="font-family: 'Work Sans', sans-serif;">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'tienda' %}">Tienda</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{producto.idProducto}}</li>
+
+        </ol>
+    </nav>
+</main>
+
+<div class="container col-xxl-8 shadow rounded">
+
+    {%if user.is_authenticated%}
+    <div class="row flex-lg-row-reverse align-items-center p-3 py-5 bg-white rounded">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="{{producto.foto.url}}" class="d-block mx-lg-auto img-fluid" alt="" width="400" height="500"
+                loading="lazy">
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3" style="font-family: 'Work Sans', sans-serif;">
+                {{producto.nombreProducto}}
+            </h1>
+            <h3 style="color: rgb(128, 0, 167);"><strong>${{producto.precio}}</strong></h3>
+            <p class="lead">
+                {%if producto.activo == 1%}
+                Disponible
+                {%else%}
+                No disponible
+                {%endif%}
+            </p>
+            <p class="lead">
+                Tenemos {{producto.stock}} unidades en stock.
+            </p>
+            <div class="form-floating mb-3">
+                <input type="number" class="form-control" id="basket-qty2" name="stock" placeholder="Cantidad" min="1"
+                    max="{{producto.stock}}" required>
+                <label for="floatingInput">Cantidad</label>
+            </div>
+
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+
+                <a href="{% url 'tienda' %}" class="btn btn-outline-secondary btn-lg px-4"><i
+                        class="bi bi-chevron-left"></i>&nbsp;Volver a la tienda</a>
+                <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" id="add-button"
+                    value="{{producto.idProducto}}">Añadir al
+                    carrito&nbsp;<i class="bi bi-cart-plus-fill"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    {%else%}
+    <div class="row flex-lg-row-reverse align-items-center p-3 py-5 bg-white rounded">
+
+        <div class="col-12">
+            <h1 class="display-5 fw-bold lh-1 mb-3" style="font-family: 'Work Sans', sans-serif;">
+                Producto no disponible</h1>
+
+            <p class="lead">Iniciar sesión para poder visualizar el producto.</p>
+
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+
+                <a href="{% url 'tienda' %}" class="btn btn-outline-secondary btn-lg px-4"><i
+                        class="bi bi-chevron-left"></i>&nbsp;Volver a la tienda</a>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 me-md-2">Iniciar sesión
+                    &nbsp;<i class="bi bi-door-open-fill"></i></a>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+</div>
+
+<script>
+
+    $(document).on('click', '#add-button', function (e) {
+        e.preventDefault();
+        var cantidad = '{{producto.stock}}'
+
+        if (($('#basket-qty2').val() > cantidad)) {
+            Swal.fire(
+                '¡Stock insuficiente!',
+                'Ingrese una cantidad inferior',
+                'error'
+            );
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '{% url "carro:agregar" producto.idProducto %}',
+                data: {
+                    productqty: $('#basket-qty2').val(),
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                    action: 'post'
+
+                },
+
+                success: function (json) {
+
+                    Swal.fire(
+                        'Producto agregado',
+                        '¡Su(s) producto(s) han sido añadidos al carito de compras!',
+                        'success'
+                    );
+                },
+                error: function (xhr, errmsg, err) {
+                    Swal.fire(
+                        '¡No has seleccionado la cantidad!',
+                        'Para continuar, añade una cantidad de productos.',
+                        'error'
+                    );
+                }
+            });
+        }
+    })
+</script>
+
+{%endblock%}

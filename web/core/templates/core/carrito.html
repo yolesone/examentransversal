@@ -1,0 +1,114 @@
+{% extends 'core/base.html' %}
+
+{%load static%}
+
+{%block title%}
+<title>Carro de compras</title>
+{%endblock%}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3 border shadow-lg">
+
+        {% if user.is_authenticated %}
+
+        <div class="row featurette">
+            <div class="order-md-2 text-center" style="font-family: 'Work Sans', sans-serif;">
+                <h1 class="display-5 fw-bold">Mi carrito de compras</h1>
+                <br>
+                <table class="table text-color-wh table-borderless">
+
+                    <thead>
+                        <tr class="text-start">
+                            <th>Foto</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% if request.session.carro.items %}
+
+                        {% for key, value in request.session.carro.items %}
+                        <tr class="text-start">
+                            <td><img src="{{value.imagen}}" style="height: 70px; width: 70px;"></td>
+                            <td>{{value.nombreProducto}}</td>
+                            <td>
+                                <a href="{% url 'carro:restar' value.idProducto %}" class="align-text-bottom"><i
+                                        class="bi bi-dash-circle-fill align-text-bottom"
+                                        style="font-size: 2rem;color: green;"></i></a>
+
+
+                                <i class=" align-text-bottom" style="font-size: 2rem;">{{value.cantidad}}</i>
+
+
+                                <a href="{% url 'carro:agregar2' value.idProducto %}" class="align-text-bottom">
+                                    <i class="bi bi-plus-circle-fill align-text-bottom"
+                                        style="font-size: 2rem; color: green;"></i>
+                                </a>
+                            </td>
+
+                            <td>
+                                ${{value.precio}}
+                            </td>
+                            <td class="align-text-bottom">
+                                <a href="{% url 'carro:eliminar' value.idProducto %}"
+                                    class="btn btn-outline-danger rounded-circle"><i class="bi bi-trash3-fill"></i></a>
+                            </td>
+                        </tr>
+                        {%endfor%}
+                        {%else%}
+                        <tr>
+                            <td colspan="5">
+                                <p class="lead">Sin productos</p>
+                            </td>
+                        </tr>
+
+                        {%endif%}
+                        <tr>
+                            <th colspan="5" class="text-center">
+                                <p class="lead">Total a pagar: <strong>${{importe_total_carro}}</strong></p>
+
+                            </th>
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+                <div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'tienda' %}" class="btn btn-secondary me-md-2" type="button"><i
+                                class="bi bi-chevron-left"></i>&nbsp;Volver a la
+                            tienda</a>
+                        <a href="{% url 'procesar_venta' %}" class="btn btn-primary me-md-2" type="button">Confirmar
+                            carrito&nbsp;<i class="bi bi-bag-check-fill"></i></a>
+
+                    </div>
+
+                </div>
+
+
+
+
+                {%else%}
+                <h1 class="display-5 fw-bold">Carrito no disponible</h1>
+                <p class="col-md-8 fs-4">
+                    Debes iniciar sesión para poder visualizar el carrito.
+                </p>
+
+                <a class="btn btn-primary btn-lg" aria-current="page" href="{% url 'login' %}">Iniciar sesión
+                    &nbsp;<i class="bi bi-door-open-fill"></i>
+                </a>
+
+                {%endif%}
+            </div>
+        </div>
+    </div>
+
+</div>
+{%endblock%}

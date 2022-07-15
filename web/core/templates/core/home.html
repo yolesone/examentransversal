@@ -1,0 +1,140 @@
+{% extends 'core/base.html' %}
+
+{%load static%}
+
+{%block title%}
+<title>Home</title>
+{%endblock%}
+
+{% block content %}
+
+<main style="font-family: 'Work Sans', sans-serif;">
+
+    <div class="container my-4">
+        <div class="row p-3 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 shadow bg-light">
+            <div class="col-lg-6 p-3 p-lg-5 pt-lg-3">
+                <h1 class="display-4 fw-bold lh-1"><i class="bi bi-shop"></i>&nbsp;Visita nuestra tienda</h1>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse aliquet quis lorem
+                    vel scelerisque. Maecenas pharetra nec nibh ut consequat. Nulla finibus nisl eu ante ultrices
+                    egestas. Curabitur vitae neque quis velit sodales semper.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                    <a href="{% url 'tienda' %}" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Ir a la
+                        tienda&nbsp;<i class="bi bi-shop"></i></a>
+
+                </div>
+            </div>
+            <div class="col-lg-6 p-0 overflow-hidden ">
+                <img class="rounded-lg-3" src="https://www.pngall.com/wp-content/uploads/10/Cute-Pet-PNG-Images.png"
+                    alt="" width="800">
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container marketing mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="{%static 'core/img/bandana01.jpg'%}" class="rounded-circle" alt="..." height="240px"
+                    width="240px">
+
+
+                <h2 class="fw-normal">Bandanas</h2>
+                <p>Si buscas bandanas para mascotas, estas en el lugar correcto. Entra y conoce la variedad de bandanas
+                    para perros. Razas Chicas y Grandes.</p>
+
+            </div>
+            <div class="col-lg-4">
+                <img src="{%static 'core/img/4.jpg'%}" class="rounded-circle" alt="..." height="240px" width="240px">
+
+
+                <h2 class="fw-normal">Correas</h2>
+                <p>Las mejores correas para perros están en Patitas. Compra online de forma rápida y fácil. Encuentra la
+                    mayor variedad de Correas para perros en un sólo click.</p>
+
+            </div>
+            <div class="col-lg-4">
+                <img src="{%static 'core/img/5.jpg'%}" class="rounded-circle" alt="..." height="240px" width="240px">
+
+
+                <h2 class="fw-normal">Identificadores</h2>
+                <p>Incluye el nombre de tu perro o gato por delante y por detrás todos tus datos de contacto. Detalles
+                    personalizados.</p>
+
+            </div>
+
+        </div>
+
+        <!-- START THE FEATURETTES -->
+
+    </div>
+
+    <div class="container px-4 py-5" id="custom-cards">
+        <h2 class="pb-2 border-bottom">Nuestros clientes</h2>
+
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="cards-wrapper">
+                        <div class="card">
+                            <img src="{{perros.message.0}}" class="card-img-top" alt="...">
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.1}}" class="card-img-top" alt="...">
+
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.2}}" class="card-img-top" alt="...">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <div class="card">
+                            <img src="{{perros.message.3}}" class="card-img-top" alt="...">
+
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.4}}" class="card-img-top" alt="...">
+
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.5}}" class="card-img-top" alt="...">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="cards-wrapper">
+                        <div class="card">
+                            <img src="{{perros.message.6}}" class="card-img-top" alt="...">
+
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.7}}" class="card-img-top" alt="...">
+
+                        </div>
+                        <div class="card d-none d-md-block">
+                            <img src="{{perros.message.8}}" class="card-img-top" alt="...">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+{%endblock%}

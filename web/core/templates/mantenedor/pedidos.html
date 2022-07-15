@@ -1,0 +1,69 @@
+{% extends 'mantenedor/mantenedor.html' %}
+{%load static%}
+{%block content%}
+
+<div class="mb-0">
+    <div class="d-flex align-items-center p-3 text-white bg-purple rounded shadow-sm ">
+        <i class="bi bi-card-checklist align-text-bottom" style="font-size: 3rem;"></i>
+        <div class="lh-1">
+            <h1 class="h2 mb-0 text-white lh-1">&nbsp;Lista de pedidos</h1>
+        </div>
+    </div>
+
+    <div class="my-3 p-3 bg-body rounded shadow-sm border">
+
+        {%for x in detalleventa%}
+        <div class="d-flex text-muted pt-1">
+            <i class="bd-placeholder-img bi bi-box2-fill flex-shrink-0 me-2" style="font-size: 2rem;"></i>
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-gray-dark">{{x.created_at}}</strong>
+                    <span class="d-block align-text-center">{{x.user}}</span>
+                    <span class="d-block">{{x.cantidad}} producto(s)</span>
+                    <span class="d-block">{{x.producto_id.nombreProducto}}</span>
+                    <span class="d-block">{{x.venta_id}}</span>
+                    <span class="d-block">{{x.venta_id.estado}}</span>
+                    <a href="{% url 'editar_pedido' pk=x.venta_id %}" class="btn btn-secondary btn-sm rounded-circle"><i
+                            class="bi bi-pencil-square"></i></a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+<div class="container">
+    {% if accion == "form_edit" %}
+    {% load crispy_forms_tags %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div id="cuadro3">
+                <div class="table-wrapper">
+                    <div class="col-sm-12" align="right">
+                        <a class="add btn btn-secondary" title="Ver datos en tabla" data-toggle="tooltip"
+                            href="{% url 'pedidos' %}">
+                            Volver
+                        </a>
+                    </div>
+                    <h3>Datos del Pedido</h3>
+
+                    <form role="form" enctype="multipart/form-data" action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        {% load crispy_forms_tags%}
+                        <table>
+                            {{ form | crispy}}
+
+                        </table>
+                        <br>
+                        <input class="btn btn-primary" type="submit" value="Actualizar">
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{%endblock%}
